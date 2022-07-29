@@ -46,4 +46,8 @@ public class BoardDAO {
 	public void updateReadCount(int boardnum) {
 		sqlsession.update("Board.updateReadCount",boardnum);		
 	}
+
+	public boolean updateBoard(BoardDTO board) {
+		return sqlsession.update("Board.updateBoard", board)==1;
+	}
 }

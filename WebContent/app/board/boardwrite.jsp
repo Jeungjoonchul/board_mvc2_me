@@ -194,6 +194,7 @@ input[type="text"], textarea{
 		}
 		$("#"+name+"name").text("선택된 파일 없음");
 		$("."+name+"_cont .thumbnail").remove();
+		
 	}
 	function sendit(){
 		const boardForm = document.boardForm;

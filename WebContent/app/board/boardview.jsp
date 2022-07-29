@@ -201,8 +201,7 @@ input[type="text"], textarea{
 								<th>첨부파일${i+1}</th>
 								<td><a href="${cp}/board/filedownload.bo?systemname=${file.systemname}&orgname=${file.orgname}">${file.orgname}</a></td>
 							</tr>
-							<c:forTokens items="${file.orgname}" delims="." var="token"
-								varStatus="status">
+							<c:forTokens items="${file.orgname}" delims="." var="token"	varStatus="status">
 								<c:if test="${status.last}">
 									<c:if
 										test="${token eq 'jpg' or token eq 'jpeg' or token eq 'png' or token eq 'gif' or token eq 'webp' }">

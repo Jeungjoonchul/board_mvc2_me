@@ -87,7 +87,8 @@ input[type="text"], textarea{
 				<td><h3>MVC 게시판</h3></td>
 			</tr>
 		</table>
-		<form id="boardForm" method="post" name="boardForm" action="/board/boardmodifyok.bo" enctype="multipart/form-data">
+		<form id="boardForm" method="post" name="boardForm" action="${cp }/board/boardmodifyok.bo" enctype="multipart/form-data">
+			<input type="hidden" name="boardnum" value="${board.boardnum}"/>
 			<table border="1" style="border-collapse: collapse;">
 				<tr height="30px">
 					<th align="center" width="150px">제 목</th>
@@ -147,7 +148,7 @@ input[type="text"], textarea{
 			<tr align="right" valign="middle">
 				<td>
 					<a href="javascript:document.boardForm.submit()">수정 완료</a>&nbsp;&nbsp;
-					<a href="${cp }/board/boardlist.bo?page=${param.page}">목록</a>
+					<a href="${cp}/board/boardlist.bo?page=${param.page}">목록</a>
 				</td>
 			</tr>
 		</table>
@@ -202,6 +203,7 @@ input[type="text"], textarea{
 		}
 		$("#"+name+"name").text("선택된 파일 없음");
 		$("."+name+"_cont .thumbnail").remove();
+		$("#"+name+"name").next().val("");
 	}
 	function sendit(){
 		const boardForm = document.boardForm;

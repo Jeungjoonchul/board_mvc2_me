@@ -79,6 +79,13 @@ public class BoardFrontController extends HttpServlet{
 				System.out.println("/board/boardmodify.bo : "+e);
 			}
 			break;
+		case "/board/boardmodifyok.bo":
+			try {
+				transfer=new BoardModifyOkAction().execute(req,resp);
+			} catch (Exception e) {
+				System.out.println("/board/boardmodifyok"+e);
+			} 
+			break;
 		}
 		
 		//전송 일괄처리
