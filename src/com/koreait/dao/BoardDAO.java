@@ -15,16 +15,26 @@ public class BoardDAO {
 		sqlsession = SqlMapConfig.getFactory().openSession(true);
 	}
 	
-	public int getBoardCnt() {
-		return sqlsession.selectOne("Board.getBoardCnt");
+	public int getBoardCnt(String keyword) {
+		if(keyword == null || keyword.equals("")) {			
+			return sqlsession.selectOne("Board.getBoardCnt");
+		}
+		return sqlsession.selectOne("Board.getBoardCntWithKey",keyword);
 	}
 
-	public List<BoardDTO> getBoardList(int startRow, int pageSize) {
-		HashMap<String, Integer> datas = new HashMap<String, Integer>();
+	public List<BoardDTO> getBoardList(int startRow, int pageSize, String keyword) {
+		List<BoardDTO> list;
+		HashMap<String, Object> datas = new HashMap<String, Object>();
+
 		datas.put("startRow", startRow);
 		datas.put("pageSize", pageSize);
-		
-		return sqlsession.selectList("Board.getBoardList",datas);
+		if(keyword == null || keyword.contentEquals("")) {
+			list= sqlsession.selectList("Board.getBoardList",datas);			
+		}else {
+			datas.put("keyword",keyword);
+			list=sqlsession.selectList("Board.getBoardListWithKey", datas);
+		}
+		return list;
 	}
 	
 	public BoardDTO getDetail(int boardnum) {
@@ -50,4 +60,27 @@ public class BoardDAO {
 	public boolean updateBoard(BoardDTO board) {
 		return sqlsession.update("Board.updateBoard", board)==1;
 	}
+
+	public boolean insertReply(ReplyDTO reply) {
+		return sqlsession.insert("Board.insertReply", reply)==1;
+	}
+
+	public List<ReplyDTO> getReplies(int boardnum) {
+		return sqlsession.selectList("Board.getReplies", boardnum);
+	}
+
+	public boolean updateReply(int replynum, String replycontents) {
+		HashMap<String, Object> datas = new HashMap<String, Object>();
+		datas.put("replynum", replynum);
+		datas.put("replycontents", replycontents);
+		return sqlsession.update("Board.updateReply",datas)==1;
+	}
+
+	public boolean removeReply(int replynum) {
+		return sqlsession.delete("Board.removeReply", replynum)==1;
+	}
+
+
+	
+	
 }

@@ -16,11 +16,13 @@ public class BoardListAction implements Action {
 
 		BoardDAO bdao = new BoardDAO();
 		String temp = req.getParameter("page");
+		String keyword=req.getParameter("keyword");
+		
 
 		int page = temp == null ? 1 : Integer.parseInt(req.getParameter("page"));
 
 		// DB에 등록된 게시글의 전체 개수
-		int totalCnt = bdao.getBoardCnt();
+		int totalCnt = bdao.getBoardCnt(keyword);
 
 		// 한 페이지에서 보여줄 게시글의 개수
 		int pageSize = 10;
@@ -42,7 +44,7 @@ public class BoardListAction implements Action {
 
 		int startRow = (page - 1) * pageSize;
 
-		List<BoardDTO> list = bdao.getBoardList(startRow, pageSize);
+		List<BoardDTO> list = bdao.getBoardList(startRow, pageSize,keyword);
 
 		req.setAttribute("list", list);
 		req.setAttribute("totalPage", totalPage);
@@ -50,7 +52,8 @@ public class BoardListAction implements Action {
 		req.setAttribute("startPage", startPage);
 		req.setAttribute("endPage", endPage);
 		req.setAttribute("page", page);
-
+		req.setAttribute("keyword", keyword);
+		
 		ActionTo transfer = new ActionTo();
 		transfer.setRedirect(false);
 		transfer.setPath("/app/board/boardlist.jsp");

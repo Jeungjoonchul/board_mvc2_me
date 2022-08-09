@@ -18,7 +18,6 @@ public class BoardWriteOkAction implements Action{
 		
 		String saveFolder = req.getServletContext().getRealPath("file");
 		System.out.println(saveFolder);
-		
 		int size = 1024*1024*5;
 		
 		//cos 라이브러리 이용

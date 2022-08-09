@@ -18,6 +18,7 @@ public class UserJoinOkAction implements Action{
 		UserDAO udao = new UserDAO();
 		String userid = req.getParameter("userid");
 		user.setUserid(userid);
+		//user.setUserid(req.getParameter("userid"));
 		user.setUserpw(req.getParameter("userpw"));
 		user.setUsername(req.getParameter("username"));
 		user.setUsergender(req.getParameter("usergender"));
@@ -29,10 +30,15 @@ public class UserJoinOkAction implements Action{
 		
 		ActionTo transfer = new ActionTo();
 		transfer.setRedirect(true);
+		
 		if(udao.join(user)) {
 			transfer.setPath(req.getContextPath()+"/user/userlogin.us?user="+userid);
+			// /user/userlogin.us?user=apple
+			// localhost:9090/user/userlogin.us?user=apple
 		}else {
 			transfer.setPath(req.getContextPath());
+			// /
+			// localhost:9090/
 		}
 		return transfer;
 	}

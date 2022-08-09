@@ -33,6 +33,7 @@ public class UserFrontController extends HttpServlet{
 		String contextPath = req.getContextPath(); // ????(module명)
 		String command = requestURI.substring(contextPath.length()); // /user/userjoin.us
 		System.out.println(command);
+		// //user/userjoinok.us => /user/userjoinok.us
 		
 		ActionTo transfer = null;
 		
@@ -40,7 +41,7 @@ public class UserFrontController extends HttpServlet{
 		case "/user/userjoin.us":
 			transfer = new ActionTo();
 			transfer.setPath("/app/user/joinview.jsp");
-			transfer.setRedirect(false);
+			transfer.setRedirect(false); //forward
 			break;
 		case "/user/userlogin.us":
 			transfer = new ActionTo();
@@ -75,7 +76,6 @@ public class UserFrontController extends HttpServlet{
 			out.print("alert('로그아웃 되었습니다!');");
 			out.print("location.href = '" + req.getContextPath() + "/';");
 			out.print("</script>");
-			System.out.println("CP : "+req.getContextPath());
 			break;
 		}
 		
@@ -83,6 +83,7 @@ public class UserFrontController extends HttpServlet{
 		if(transfer !=null) {
 			if(transfer.isRedirect()) {
 				resp.sendRedirect(transfer.getPath());
+				//resp.sendRedirect("/dogather/user/userlogin.us?user=apple");
 			}else {
 				req.getRequestDispatcher(transfer.getPath()).forward(req, resp);
 			}	

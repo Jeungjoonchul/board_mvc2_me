@@ -21,17 +21,32 @@ public class BoardViewAction implements Action {
 		String loginUser=(String)req.getSession().getAttribute("loginUser");
 		
 		BoardDTO board = bdao.getDetail(boardnum);
+		//title,contents,userid,readcount = 47
 		
+		
+		boolean flag=true;
 		if(!board.getUserid().equals(loginUser)) {
-			board.setReadcount(board.getReadcount()+1);
-			bdao.updateReadCount(boardnum);
+			Cookie[] cookies = req.getCookies();
+			for(Cookie c :cookies) {
+				if(c.getName().equalsIgnoreCase("hit-"+boardnum+"-"+loginUser)) {
+					flag=false;
+				}
+			}
+			if(flag) {
+				board.setReadcount(board.getReadcount()+1);
+				bdao.updateReadCount(boardnum);
+				Cookie hits = new Cookie("hit-"+boardnum+"-"+loginUser,"hit");
+				hits.setMaxAge(60*60*24);
+				resp.addCookie(hits);
+			}
 		}
 		
 		FileDAO fdao = new FileDAO();
 		
 		req.setAttribute("board", board);
 		req.setAttribute("files", fdao.getFiles(boardnum));
-
+		req.setAttribute("replies", bdao.getReplies(boardnum));
+		
 		ActionTo transfer = new ActionTo();
 		transfer.setRedirect(false);
 		transfer.setPath("/app/board/boardview.jsp");

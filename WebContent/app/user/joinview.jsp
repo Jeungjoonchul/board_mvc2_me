@@ -100,8 +100,7 @@
 <body>
 
 	<div id="wrap">
-		<form name="joinForm" method="post" action="${cp}/user/userjoinok.us"
-			onsubmit="return sendit()">
+		<form name="joinForm" method="post" action="${cp}/user/userjoinok.us" onsubmit="return sendit()">
 			<table>
 				<tr>
 					<td id="result" colspan="2">&nbsp;</td>

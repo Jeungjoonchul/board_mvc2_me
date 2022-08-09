@@ -89,6 +89,9 @@ input[type="text"], textarea{
 		</table>
 		<form id="boardForm" method="post" name="boardForm" action="${cp }/board/boardmodifyok.bo" enctype="multipart/form-data">
 			<input type="hidden" name="boardnum" value="${board.boardnum}"/>
+			<input type="hidden" name="keyword" value="${param.keyword}"/>
+			<input type="hidden" name="page" value="${param.page}"/>
+			
 			<table border="1" style="border-collapse: collapse;">
 				<tr height="30px">
 					<th align="center" width="150px">제 목</th>
@@ -185,7 +188,7 @@ input[type="text"], textarea{
 				
 				reader.onload = function(ie){
 					const img = document.createElement("img");
-					img.setAttribute("src",ie.target.result)
+					img.setAttribute("src",ie.target.result);
 					img.setAttribute("class",'thumbnail'); //<img src = "???/QR.png" class = "thumbnail">
 					document.querySelector("."+e.target.id+"_cont").appendChild(img);
 				}

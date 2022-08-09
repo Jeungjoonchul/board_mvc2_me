@@ -48,12 +48,21 @@
 	<!-- 로그인 성공 시 세션 세팅 후 alert() 띄우면서 main.jsp로 이동(forward) 
 		 로그인 실패 시 alert() 띄우고 index.jsp(forward)
 	-->
+	<c:set var="loginUser" value ="${user}"/>
+	<!-- loginUser = userid -->
 		<form name="loginForm" action="${cp}/user/userloginok.us" method="post">
 			<table>
 				<tr>
 					<th>아이디</th>
 					<td>
-						<input type="text" name="userid">
+					<c:choose>
+					<c:when test="${!empty loginUser }">
+					<input type="text" name="userid" value="${loginUser }">
+					</c:when>
+					<c:otherwise>
+						<input type="text" name="userid">					
+					</c:otherwise>					
+					</c:choose>
 					</td>
 				</tr>			
 				<tr>

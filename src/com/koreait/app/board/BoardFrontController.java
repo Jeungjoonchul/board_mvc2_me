@@ -86,6 +86,27 @@ public class BoardFrontController extends HttpServlet{
 				System.out.println("/board/boardmodifyok"+e);
 			} 
 			break;
+		case "/reply/replywrite.bo":
+			try {
+				new ReplyWriteAction().execute(req,resp);
+			} catch (Exception e) {
+				System.out.println("/reply/replywrite.bo"+e);
+			}
+			break;
+		case "/reply/replymodify.bo":
+			try {
+				new ReplyModifyAction().execute(req,resp);
+			} catch (Exception e) {
+				System.out.println("/reply/replymodify.bo"+e);
+			}
+			break;
+		case "/reply/replyremove.bo":
+			try {
+				new ReplyRemoveAction().execute(req,resp);
+			} catch (Exception e) {
+				System.out.println("/reply/replyremove.bo"+e);
+			}
+			break;
 		}
 		
 		//전송 일괄처리

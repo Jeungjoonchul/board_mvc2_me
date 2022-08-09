@@ -1,6 +1,7 @@
 package com.koreait.app.board;
 
 import java.io.*;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,9 @@ public class BoardModifyOkAction implements Action{
 		int boardnum = Integer.parseInt(multi.getParameter("boardnum"));
 		String boardtitle = multi.getParameter("boardtitle");
 		String boardcontents = multi.getParameter("boardcontents");
+		String keyword = multi.getParameter("keyword");
+		keyword=URLEncoder.encode(keyword,"utf-8");
+		String page=multi.getParameter("page");
 		
 		BoardDTO board = new BoardDTO();
 		board.setBoardtitle(boardtitle);
@@ -118,24 +122,12 @@ public class BoardModifyOkAction implements Action{
 					}
 				}
 			}
-			transfer.setPath(req.getContextPath()+"/board/boardview.bo?boardnum="+boardnum);
+			System.out.println(req.getContextPath()+"/board/boardview.bo?boardnum="+boardnum+"&page="+page+"&keyword="+keyword);
+			transfer.setPath(req.getContextPath()+"/board/boardview.bo?boardnum="+boardnum+"&page="+page+"&keyword="+keyword);
 		}
 		else {
-			transfer.setPath(req.getContextPath()+"/board/boardview.bo?boardnum="+boardnum);
+			transfer.setPath(req.getContextPath()+"/board/boardview.bo?boardnum="+boardnum+"&page="+page+"&keyword="+keyword);
 		}
 		return transfer;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

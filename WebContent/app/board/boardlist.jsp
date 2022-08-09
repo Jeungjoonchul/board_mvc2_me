@@ -1,3 +1,4 @@
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -14,6 +15,10 @@ body {
 table {
 	border: 0px;
 	width: 900px;
+}
+
+.title a{
+	background-color: white;
 }
 
 .title h3 {
@@ -130,6 +135,16 @@ a.write {
 </style>
 </head>
 <body>
+
+<%
+	int cookieCnt= 0;
+	Cookie[] cookies = request.getCookies();
+	for(Cookie cookie:cookies){
+		System.out.println(cookie.getName()+":"+cookie.getValue());
+		cookieCnt++;
+	}
+	System.out.println(cookieCnt);
+%>
 	<c:set var="cp" value="${pageContext.request.contextPath}"></c:set>
 	<c:if test="${loginUser == ''}">
 		<script>
@@ -154,7 +169,7 @@ a.write {
 		<!-- 타이틀과 글 개수 띄워주는 테이블 -->
 		<table class="title">
 			<tr align="center" valign="middle">
-				<td><h3>MVC 게시판</h3></td>
+				<td><a href="${cp }/board/boardlist.bo"><h3>MVC 게시판</h3></a></td>
 			</tr>
 			<tr align="right" valign="middle">
 				<td>글 개수 :${totalCnt}</td>
@@ -175,7 +190,7 @@ a.write {
 					<c:forEach items="${list }" var="board">
 						<tr>
 							<td>${board.boardnum}</td>
-							<td><a href="${cp}/board/boardview.bo?boardnum=${board.boardnum}&page=${page}">${board.boardtitle}</a></td>
+							<td><a href="${cp}/board/boardview.bo?boardnum=${board.boardnum}&page=${page}&keyword=${keyword}">${board.boardtitle}</a></td>
 							<td>${board.userid}</td>
 							<td>${board.regdate}<c:if test="${board.regdate!=board.updatedate}">(수정됨)</c:if></td>
 							<td>${board.readcount}</td>
@@ -195,31 +210,37 @@ a.write {
 		<table class="pagination">
 			<tr align="center" valign="middle">
 				<td><c:if test="${startPage!=1 }">
-						<a href="${cp}/board/boardlist.bo?page=${startPage-1}">&lt;</a>
+						<a href="${cp}/board/boardlist.bo?page=${startPage-1}&keyword=${keyword}">&lt;</a>
 					</c:if> <c:forEach begin="${startPage}" end="${endPage }" var="i">
 						<c:choose>
 							<c:when test="${page==i}">
 								<span class="nowPage">${i}</span>
 							</c:when>
 							<c:otherwise>
-								<a href="${cp}/board/boardlist.bo?page=${i}">${i}</a>
+								<a href="${cp}/board/boardlist.bo?page=${i}&keyword=${keyword}">${i}</a>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach> <c:if test="${endPage!=totalPage}">
-						<a href="${cp}/board/boardlist.bo?page=${endPage+1}">&gt;</a>
+						<a href="${cp}/board/boardlist.bo?page=${endPage+1}&keyword=${keyword}">&gt;</a>
 					</c:if></td>
 			</tr>
 		</table>
 		<!-- 글쓰기 버튼 배치하는 테이블 -->
 		<table style="border: 0px; width: 900px;">
 			<tr align="right" valign="middle">
-				<td><a class="write" href="${cp }/board/boardwrite.bo?page=${page}">글쓰기</a></td>
+				<td><a class="write" href="${cp }/board/boardwrite.bo?page=${page}&keyword=${keyword}">글쓰기</a></td>
 			</tr>
 		</table>
 		<div class="search_area">
-			<input type="search" id="q" name="q"> <input type="button"
-				value="검색" onclick="">
+			<input type="search" id="q" name="q" value="${keyword==null ? '' : keyword}"> <input type="button"
+				value="검색" onclick="search()" style="cursor: pointer">
 		</div>
 	</div>
 </body>
+<script>
+	function search(){
+		const q = document.getElementById("q");
+		location.href="${cp}/board/boardlist.bo?keyword="+q.value;
+	}
+</script>
 </html>
